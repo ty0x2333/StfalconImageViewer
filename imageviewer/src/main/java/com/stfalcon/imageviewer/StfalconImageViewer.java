@@ -142,6 +142,11 @@ public class StfalconImageViewer<T> {
             return this;
         }
 
+        public Builder<T> withDialogStyle(@StyleRes int themeId) {
+            this.data.setCustomDialogStyle(themeId);
+            return this;
+        }
+
         /**
          * Sets a background color value for the viewer
          *

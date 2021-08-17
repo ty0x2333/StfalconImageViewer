@@ -33,16 +33,10 @@ internal class ImageViewerDialog<T>(
     private val viewerView: ImageViewerView<T> = ImageViewerView(context)
     private var animateOpen = true
 
-    private val dialogStyle: Int
-        get() = if (builderData.shouldStatusBarHide)
-            R.style.ImageViewerDialog_NoStatusBar
-        else
-            R.style.ImageViewerDialog_Default
-
     init {
         setupViewerView()
         dialog = AlertDialog
-            .Builder(context, dialogStyle)
+            .Builder(context, builderData.dialogStyle)
             .setView(viewerView)
             .setOnKeyListener { _, keyCode, event -> onDialogKeyEvent(keyCode, event) }
             .create()

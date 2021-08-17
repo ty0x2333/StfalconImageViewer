@@ -19,6 +19,8 @@ package com.stfalcon.imageviewer.viewer.builder
 import android.graphics.Color
 import android.view.View
 import android.widget.ImageView
+import androidx.annotation.StyleRes
+import com.stfalcon.imageviewer.R
 import com.stfalcon.imageviewer.listeners.OnDismissListener
 import com.stfalcon.imageviewer.listeners.OnImageChangeListener
 import com.stfalcon.imageviewer.loader.ImageLoader
@@ -35,6 +37,18 @@ internal class BuilderData<T>(
     var imageMarginPixels: Int = 0
     var containerPaddingPixels = IntArray(4)
     var shouldStatusBarHide = true
+    var customDialogStyle: Int? = null
+    val dialogStyle: Int
+        get() {
+            customDialogStyle?.let {
+                return it
+            }
+            return if (shouldStatusBarHide) {
+                R.style.ImageViewerDialog_NoStatusBar
+            } else {
+                R.style.ImageViewerDialog_Default
+            }
+        }
     var isZoomingAllowed = true
     var isSwipeToDismissAllowed = true
     var transitionView: ImageView? = null
