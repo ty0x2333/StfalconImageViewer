@@ -2,14 +2,49 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'maven-publish'
 
+
+def libraryGroupId = 'sh.tyy'
+def libraryArtifactId = 'stfalcon-imageviewer'
+def libraryVersionCode = 2
+def libraryVersion = '1.1.0'
+
+task androidSourcesJar(type: Jar) {
+    classifier = 'sources'
+    from android.sourceSets.main.java.source
+}
+
+publishing {
+    publications {
+        aar(MavenPublication) {
+            groupId libraryGroupId
+            version = libraryVersion
+            artifactId libraryArtifactId
+            // Tell maven to prepare the generated "*.aar" file for publishing
+            artifact("$buildDir/outputs/aar/imageviewer-release.aar")
+            artifact androidSourcesJar
+        }
+    }
+
+    repositories {
+        maven {
+            name "TyGitHubPackages"
+            url "https://maven.pkg.github.com/ty0x2333/StfalconImageViewer"
+            credentials {
+                username = "${github_user}"
+                password = "${github_token}"
+            }
+        }
+    }
+}
+
 android {
     compileSdkVersion 29
 
     defaultConfig {
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode 1
-        versionName "1.0"
+        versionCode libraryVersionCode
+        versionName libraryVersion
     }
 
     buildTypes {
@@ -19,22 +54,22 @@ android {
         }
     }
 
-    afterEvaluate {
-        publishing {
-            publications {
-                // Creates a Maven publication called "release".
-                release(MavenPublication) {
-                    // Applies the component for the release build variant.
-                    from components.release
-
-                    // You can then customize attributes of the publication as shown below.
-                    groupId = 'com.github.stfalcon'
-                    artifactId = 'stfalcon-imageviewer'
-                    version = '1.0.1'
-                }
-            }
-        }
-    }
+//    afterEvaluate {
+//        publishing {
+//            publications {
+//                // Creates a Maven publication called "release".
+//                release(MavenPublication) {
+//                    // Applies the component for the release build variant.
+//                    from components.release
+//
+//                    // You can then customize attributes of the publication as shown below.
+//                    groupId = 'com.github.stfalcon'
+//                    artifactId = 'stfalcon-imageviewer'
+//                    version = '1.0.1'
+//                }
+//            }
+//        }
+//    }
 
 }
 
